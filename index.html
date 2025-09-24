@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API</title>
+</head>
+
+<body>
+    <button id="auth-btn">auth</button>
+
+
+    <script>
+        const authBtn = document.querySelector('#auth-btn');
+        console.log("js");
+        authBtn.addEventListener('click', async() => {
+            console.log("authh");
+            window.location.href = "http://localhost:5050/api/auth/google"
+        })
+
+
+
+    </script>
+</body>
+
+</html>
