@@ -1,5 +1,7 @@
 const express = require("express");
 const asyncHandler = require('express-async-handler'); // Import the handler
+const categorySchema = require("../utils/validation/categorySchema");
+const ajvValidation = require("../middlewares/ajvValidation")
 const router = express.Router();
 const idParamHandler = require("../middlewares/id.middleware");
 const {
