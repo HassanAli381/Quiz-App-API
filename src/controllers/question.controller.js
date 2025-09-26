@@ -1,5 +1,6 @@
 const Question = require("../models/question.model");
 const { shuffleArray }  = require("../utils/helperFunctions");
+const { SUCCESS, FAIL } = require("../utils/responseStatus");
 // getallquestion , getcatbyid , createquestion , updatecat , deletecat
 const getQuestions = async (req, res) => {
     // if no query send --> get all questions
@@ -12,13 +13,13 @@ const getAllQuestions = async (req, res) => {
     const allQuestions = await Question.find({});
     if (allQuestions.length === 0) {
         res.status(200).json({
-            status: "Success",
+            status: SUCCESS,
             msg: "No Data Found"
         })
         return;
     }
     res.status(200).json({
-        status: "Success",
+        status: SUCCESS,
         length: allQuestions.length,
         msg: "all questions retrived",
         data: allQuestions
@@ -40,7 +41,7 @@ const getSomeQuestions = async (difficulty, nQuestions, catId) => {
     if (nQuestions && !isNaN(nQuestions))
         randomizedQuestions = randomizedQuestions.slice(0, nQuestions);
     // res.status(200).json({
-    //     status: "Success",
+    //     status: SUCCESS,
     //     msg: "Some Questions is retrived",
     //     data: randomizedQuestions
     // })
@@ -52,13 +53,13 @@ const getQuestionbyId = async (req, res) => {
     const question = await Question.findById(req.validId);
     if (!question) {
         res.status(400).json({
-            status: "Fail",
+            status: FAIL,
             msg: "No Such ID"
         })
         return;
     }
     res.status(200).json({
-        status: "Success",
+        status: SUCCESS,
         msg: "Question retrived",
         data: question,
     });
@@ -68,7 +69,7 @@ const createQuestion = async (req, res) => {
     const newQuestion = new Question(req.body);
     await newQuestion.save();
     res.status(201).json({
-        status: "Success",
+        status: SUCCESS,
         msg: "New Question is added",
         data: newQuestion
     })
@@ -78,7 +79,7 @@ const updateQuestion = async (req, res) => {
     const updatedQuestion = await Question.findById(req.validId);
     if (!updatedQuestion) {
         res.status(200).json({
-            status: "Fail",
+            status: FAIL,
             msg: "No such ID"
         })
         return;
@@ -86,7 +87,7 @@ const updateQuestion = async (req, res) => {
     Object.assign(updatedQuestion, req.body);
     await updatedQuestion.save();
     res.status(200).json({
-        status: "Success",
+        status: SUCCESS,
         msg: "Question updated!",
         data: updatedQuestion
     })
@@ -96,13 +97,13 @@ const deleteQuestion = async (req, res) => {
     const delObj = await Question.findByIdAndDelete(req.validId);
     if (!delObj) {
         res.status(400).json({
-            status: "Fail",
+            status: FAIL,
             msg: "No such ID"
         })
         return;
     }
     res.status(204).json({
-        status: "Success",
+        status: SUCCESS,
         msg: "Question Deleted!",
         data: delObj
     })

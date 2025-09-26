@@ -46,7 +46,8 @@ const login = asyncHandler(async (req, res, next) => {
 
     const token = await generateJWT({
         id: user._id,
-        email
+        email,
+        role: user.role
     });
     res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
@@ -74,7 +75,8 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
 
     const token = await generateJWT({
         id: user._id,
-        email: user.email 
+        email: user.email,
+        role: user.role
     });
 
     res.cookie('token', token, {

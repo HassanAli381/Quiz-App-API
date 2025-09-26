@@ -4,6 +4,9 @@ const router = express.Router();
 const questionSchema = require("../utils/validation/questionSchema");
 const ajvValidation = require("../middlewares/ajvValidation")
 const idParamHandler = require("../middlewares/id.middleware");
+const auth = require("../middlewares/auth");
+const isAdmin = require("../middlewares/isAdmin");
+
 const {
     getQuestions,
     getQuestionbyId,
@@ -14,10 +17,10 @@ const {
 
 router.param("id", idParamHandler);
 
-router.get("/", asyncHandler(getQuestions));
-router.get("/:id", asyncHandler(getQuestionbyId));
-router.post("/",ajvValidation(questionSchema), asyncHandler(createQuestion));
-router.put("/:id",ajvValidation(questionSchema), asyncHandler(updateQuestion));
-router.delete("/:id", asyncHandler(deleteQuestion));
+router.get("/", auth, asyncHandler(getQuestions));
+router.get("/:id", ajvValidation(questionSchema), auth, asyncHandler(getQuestionbyId));
+router.post("/", auth, isAdmin, asyncHandler(createQuestion));
+router.put("/:id", ajvValidation(questionSchema), auth, isAdmin, asyncHandler(updateQuestion));
+router.delete("/:id", auth, isAdmin, asyncHandler(deleteQuestion));
 
 module.exports = router;
