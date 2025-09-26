@@ -8,6 +8,7 @@ const { ERROR } = require('./src/utils/responseStatus');
 dotenv.config();
 const categoryRouter = require("./src/routes/category.router")
 const questionRouter = require("./src/routes/question.router")
+const examRouter = require("./src/routes/exam.router")
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/auth/', userRouter);
+app.use('/api/exams/', examRouter);
 
 // app.use((err, req, res, next) => {
 //     const msg = err.msg || 'Something went wrong';
@@ -44,14 +46,14 @@ app.use('/api/auth/', userRouter);
 app.get("/api", (req, res) => {
     res.json({ msg:"Welcome to Quiz APP API"})
 })
-app.use("/api/categorys", categoryRouter);
+app.use("/api/categories", categoryRouter);
 app.use("/api/questions", questionRouter);
 
-app.use("/", (req, res) => {
-    res.status(404).json({
-        status: "Fail",
-        msg:"Not Found!"
-    })
-})
+// app.use("/", (req, res) => {
+//     res.status(404).json({
+//         status: "Fail",
+//         msg:"Not Found!"
+//     })
+// })
 
 module.exports = app;

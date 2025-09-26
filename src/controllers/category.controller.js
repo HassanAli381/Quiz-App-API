@@ -13,6 +13,7 @@ const getAllCategories = async (req, res) => {
     }
     res.status(200).json({
         status: "Success",
+        length: allCategories.length,
         msg: "all categoris retrived",
         data: allCategories
     });
@@ -72,7 +73,7 @@ const deleteCategory = async (req, res) => {
         })
         return;
     }
-    res.status(200).json({
+    res.status(204).json({
         status: "Success",
         msg: "Category Deleted!",
         data: delObj
