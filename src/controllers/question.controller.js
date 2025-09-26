@@ -19,35 +19,32 @@ const getAllQuestions = async (req, res) => {
     }
     res.status(200).json({
         status: "Success",
+        length: allQuestions.length,
         msg: "all questions retrived",
         data: allQuestions
     });
 };
 
-const getSomeQuestions = async (req, res) => {
+const getSomeQuestions = async (difficulty, nQuestions, catId) => {
     const filter = {};
-    if (req.query.catId)
-        filter.categoryId = req.query.catId
-    if (req.query.difficulty)
-        filter.difficulty = req.query.difficulty;
+    if (catId)
+        filter.categoryId = catId
+    if (difficulty)
+        filter.difficulty = difficulty;
     const retrivedquestions = await Question.find(filter)
     if (retrivedquestions.length === 0) {
-        return res.status(200).json({
-            status: "Success",
-            msg: "No Data Found for given filters"
-        });
+        return {};
     }
     // suffule questions to return random each time
     let randomizedQuestions = shuffleArray(retrivedquestions);
-    const nQuestions = req.query.nQuestions;
     if (nQuestions && !isNaN(nQuestions))
-        randomizedQuestions = randomizedQuestions.slice(0, req.query.nQuestions);
-    res.status(200).json({
-        status: "Success",
-        msg: "Some Questions is retrived",
-        data: randomizedQuestions
-    })
-    
+        randomizedQuestions = randomizedQuestions.slice(0, nQuestions);
+    // res.status(200).json({
+    //     status: "Success",
+    //     msg: "Some Questions is retrived",
+    //     data: randomizedQuestions
+    // })
+    return randomizedQuestions;
 
 }
 
@@ -104,7 +101,7 @@ const deleteQuestion = async (req, res) => {
         })
         return;
     }
-    res.status(200).json({
+    res.status(204).json({
         status: "Success",
         msg: "Question Deleted!",
         data: delObj
@@ -116,5 +113,6 @@ module.exports = {
     getQuestionbyId,
     createQuestion,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    getSomeQuestions
 }
