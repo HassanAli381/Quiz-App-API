@@ -9,13 +9,15 @@ const {
     updateCategory,
     deleteCategory
 } = require("../controllers/category.controller");
+const auth = require("../middlewares/auth");
+const isAdmin = require("../middlewares/isAdmin");
 
 router.param("id", idParamHandler);
 
-router.get("/", asyncHandler(getAllCategories));
-router.get("/:id", asyncHandler(getCategorybyID));
-router.post("/", asyncHandler(createCategory));
-router.put("/:id", asyncHandler(updateCategory));
-router.delete("/:id", asyncHandler(deleteCategory));
+router.get("/", auth, asyncHandler(getAllCategories));
+router.get("/:id", auth, asyncHandler(getCategorybyID));
+router.post("/", auth, isAdmin, asyncHandler(createCategory));
+router.put("/:id", auth, isAdmin, asyncHandler(updateCategory));
+router.delete("/:id", auth, isAdmin, asyncHandler(deleteCategory));
 
 module.exports = router;
