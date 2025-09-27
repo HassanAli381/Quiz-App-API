@@ -14,8 +14,8 @@ const isAdmin = require("../middlewares/isAdmin");
 
 router.param("id", idParamHandler);
 
-router.get("/", auth, asyncHandler(getAllCategories));
-router.get("/:id", auth, asyncHandler(getCategorybyID));
+router.get("/", asyncHandler(getAllCategories));
+router.get("/:id", asyncHandler(getCategorybyID));
 router.post("/", auth, isAdmin, asyncHandler(createCategory));
 router.put("/:id", auth, isAdmin, asyncHandler(updateCategory));
 router.delete("/:id", auth, isAdmin, asyncHandler(deleteCategory));
