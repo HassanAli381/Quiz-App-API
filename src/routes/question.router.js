@@ -17,7 +17,7 @@ const {
 
 router.param("id", idParamHandler);
 
-router.get("/", auth, asyncHandler(getQuestions));
+router.get("/", asyncHandler(getQuestions));
 router.get("/:id", ajvValidation(questionSchema), auth, asyncHandler(getQuestionbyId));
 router.post("/", auth, isAdmin, asyncHandler(createQuestion));
 router.put("/:id", ajvValidation(questionSchema), auth, isAdmin, asyncHandler(updateQuestion));
