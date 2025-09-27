@@ -49,15 +49,15 @@ app.use('*x', (req, res, next) => {
     return next(error);
 })
 
-// app.use((err, req, res, next) => {
-//     const msg = err.msg || 'Something went wrong';
-//     const statusCode = err.statusCode || 500;
-//     const status = err.status || ERROR;
-//     return res.status(statusCode).json({
-//         status,
-//         msg
-//     });
-// });
+app.use((err, req, res, next) => {
+    const msg = err.msg || 'Something went wrong';
+    const statusCode = err.statusCode || 500;
+    const status = err.status || ERROR;
+    return res.status(statusCode).json({
+        status,
+        msg
+    });
+});
 
 
 
