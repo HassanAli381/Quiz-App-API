@@ -1,5 +1,7 @@
 const express = require("express");
 const asyncHandler = require('express-async-handler'); // Import the handler
+const categorySchema = require("../utils/validation/categorySchema");
+const ajvValidation = require("../middlewares/ajvValidation")
 const router = express.Router();
 const idParamHandler = require("../middlewares/id.middleware");
 const {
@@ -11,7 +13,7 @@ const {
 } = require("../controllers/category.controller");
 const auth = require("../middlewares/auth");
 const isAdmin = require("../middlewares/isAdmin");
-
+// TODO : add authrization
 router.param("id", idParamHandler);
 /**
  * @swagger
@@ -84,7 +86,7 @@ router.get("/:id", asyncHandler(getCategorybyID));
  *       400:
  *         description: Invalid input
  */
-router.post("/", ajvValidation(categorySchema), asyncHandler(createCategory));
+router.post("/",auth, isAdmin, ajvValidation(categorySchema), asyncHandler(createCategory));
 /**
  * @swagger
  * /api/categories/{id}:
@@ -116,7 +118,7 @@ router.post("/", ajvValidation(categorySchema), asyncHandler(createCategory));
  *       404:
  *         description: Category not found
  */
-router.put("/:id", ajvValidation(categorySchema), asyncHandler(updateCategory));
+router.put("/:id",auth, isAdmin, ajvValidation(categorySchema), asyncHandler(updateCategory));
 /**
  * @swagger
  * /categories/{id}:
@@ -136,6 +138,6 @@ router.put("/:id", ajvValidation(categorySchema), asyncHandler(updateCategory));
  *       404:
  *         description: Category not found
  */
-router.delete("/:id", asyncHandler(deleteCategory));
+router.delete("/:id", auth, isAdmin, asyncHandler(deleteCategory));
 
 module.exports = router;
