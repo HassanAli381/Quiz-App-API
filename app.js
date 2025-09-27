@@ -36,16 +36,13 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/api/auth/', userRouter);
-app.use('/api/exams/', examRouter);
-
-
-
 app.get("/api", (req, res) => {
     res.json({ msg:"Welcome to Quiz APP API"})
 })
 app.use("/api/categories", categoryRouter);
 app.use("/api/questions", questionRouter);
+app.use('/api/auth/', userRouter);
+app.use('/api/exams/', examRouter);
 
 app.use('*x', (req, res, next) => {
     const error = new AppError(FAIL, 404, 'No Such route at our server');
