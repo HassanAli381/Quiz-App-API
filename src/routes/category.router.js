@@ -86,7 +86,7 @@ router.get("/:id", asyncHandler(getCategorybyID));
  *       400:
  *         description: Invalid input
  */
-router.post("/",auth, isAdmin, ajvValidation(categorySchema), asyncHandler(createCategory));
+router.post("/" ,ajvValidation(categorySchema),auth, isAdmin, asyncHandler(createCategory));
 /**
  * @swagger
  * /api/categories/{id}:
@@ -118,7 +118,7 @@ router.post("/",auth, isAdmin, ajvValidation(categorySchema), asyncHandler(creat
  *       404:
  *         description: Category not found
  */
-router.put("/:id",auth, isAdmin, ajvValidation(categorySchema), asyncHandler(updateCategory));
+router.put("/:id", ajvValidation(categorySchema),auth, isAdmin, asyncHandler(updateCategory));
 /**
  * @swagger
  * /categories/{id}:

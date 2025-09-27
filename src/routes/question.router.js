@@ -1,18 +1,18 @@
 const express = require("express");
-const asyncHandler = require('express-async-handler'); // Import the handler
+const asyncHandler = require("express-async-handler"); // Import the handler
 const router = express.Router();
 const questionSchema = require("../utils/validation/questionSchema");
-const ajvValidation = require("../middlewares/ajvValidation")
+const ajvValidation = require("../middlewares/ajvValidation");
 const idParamHandler = require("../middlewares/id.middleware");
 const auth = require("../middlewares/auth");
 const isAdmin = require("../middlewares/isAdmin");
-
+// TODO : add auth
 const {
-    getQuestions,
-    getQuestionbyId,
-    createQuestion,
-    updateQuestion,
-    deleteQuestion
+  getQuestions,
+  getQuestionbyId,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
 } = require("../controllers/question.controller");
 
 router.param("id", idParamHandler);
@@ -92,7 +92,13 @@ router.get("/:id", asyncHandler(getQuestionbyId));
  *       400:
  *         description: Validation error
  */
-router.post("/", ajvValidation(questionSchema), asyncHandler(createQuestion));
+router.post(
+  "/",
+  ajvValidation(questionSchema),
+  auth,
+  isAdmin,
+  asyncHandler(createQuestion)
+);
 /**
  * @swagger
  * /api/questions/{id}:
@@ -118,7 +124,13 @@ router.post("/", ajvValidation(questionSchema), asyncHandler(createQuestion));
  *       400:
  *         description: Invalid ID or validation error
  */
-router.put("/:id", ajvValidation(questionSchema), asyncHandler(updateQuestion));
+router.put(
+  "/:id",
+  ajvValidation(questionSchema),
+  auth,
+  isAdmin,
+  asyncHandler(updateQuestion)
+);
 /**
  * @swagger
  * /api/questions/{id}:
@@ -138,6 +150,6 @@ router.put("/:id", ajvValidation(questionSchema), asyncHandler(updateQuestion));
  *       400:
  *         description: Invalid ID or not found
  */
-router.delete("/:id", asyncHandler(deleteQuestion));
+router.delete("/:id", auth, isAdmin, asyncHandler(deleteQuestion));
 
 module.exports = router;
