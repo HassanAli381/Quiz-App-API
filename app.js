@@ -7,8 +7,11 @@ const userRouter = require('./src/routes/user.routes');
 const { ERROR } = require('./src/utils/responseStatus');
 dotenv.config();
 const categoryRouter = require("./src/routes/category.router")
-const questionRouter = require("./src/routes/question.router")
+const questionRouter = require("./src/routes/question.router");
+const { swaggerUi, swaggerSpec } = require("./swagger"); // import swagger config
+
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -44,7 +47,7 @@ app.use('/api/auth/', userRouter);
 app.get("/api", (req, res) => {
     res.json({ msg:"Welcome to Quiz APP API"})
 })
-app.use("/api/categorys", categoryRouter);
+app.use("/api/categories", categoryRouter);
 app.use("/api/questions", questionRouter);
 
 app.use("/", (req, res) => {
