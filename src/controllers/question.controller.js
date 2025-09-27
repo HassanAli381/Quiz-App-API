@@ -26,7 +26,38 @@ const getAllQuestions = async (req, res) => {
     });
 };
 
-const getSomeQuestions = async (difficulty, nQuestions, catId) => {
+const getSomeQuestions = async (req, res) => {
+    const filter = {};
+    if (req.query.catId)
+        filter.categoryId = req.query.catId
+    if (req.query.difficulty)
+        filter.difficulty = req.query.difficulty;
+    const retrivedquestions = await Question.find(filter)
+    if (retrivedquestions.length === 0) {
+        return res.status(200).json({
+            status: SUCCESS,
+            msg: "No Data Found for given filters"
+        });
+    }
+
+    // suffule questions to return random each time
+    let randomizedQuestions = shuffleArray(retrivedquestions);
+    const nQuestions = req.query.nQuestions;
+    if (nQuestions && !isNaN(nQuestions))
+        randomizedQuestions = randomizedQuestions.slice(0, req.query.nQuestions);
+
+    res.status(200).json({
+        status: SUCCESS,
+        msg: "Some Questions is retrived",
+        data: {
+            results: randomizedQuestions.length,
+            randomizedQuestions
+        }
+    });
+}
+
+
+const getRandomQuestions = async (difficulty, nQuestions, catId) => {
     const filter = {};
     if (catId)
         filter.categoryId = catId
@@ -36,17 +67,11 @@ const getSomeQuestions = async (difficulty, nQuestions, catId) => {
     if (retrivedquestions.length === 0) {
         return {};
     }
-    // suffule questions to return random each time
     let randomizedQuestions = shuffleArray(retrivedquestions);
     if (nQuestions && !isNaN(nQuestions))
         randomizedQuestions = randomizedQuestions.slice(0, nQuestions);
-    // res.status(200).json({
-    //     status: SUCCESS,
-    //     msg: "Some Questions is retrived",
-    //     data: randomizedQuestions
-    // })
+    
     return randomizedQuestions;
-
 }
 
 const getQuestionbyId = async (req, res) => {
@@ -115,5 +140,6 @@ module.exports = {
     createQuestion,
     updateQuestion,
     deleteQuestion,
-    getSomeQuestions
+    getSomeQuestions,
+    getRandomQuestions
 }

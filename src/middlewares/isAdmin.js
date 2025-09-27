@@ -8,7 +8,6 @@ const isAdmin = (req, res, next) => {
         return next(err);
     }
 
-    console.log('user', user);
 
     if(user.role !== 'admin') {
         const err = new AppError(FAIL, 403, 'You don\'t have access to this resource');

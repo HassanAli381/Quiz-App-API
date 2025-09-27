@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const { SUCCESS } = require('./../utils/responseStatus');
-const { getSomeQuestions } = require('./question.controller');
+const { getRandomQuestions } = require('./question.controller');
 const Exam = require('./../models/exam.model');
 const Question = require('./../models/question.model');
 
@@ -29,8 +29,7 @@ const getExam = asyncHandler(async (req, res, next) => {
 
 const createExam = asyncHandler(async (req, res, next) => {
     const {difficulty, numberOfQuestions, time, categoryId} = req.body;
-    const questions = await getSomeQuestions(difficulty, numberOfQuestions, categoryId);
-    // console.log('questions', questions);
+    const questions = await getRandomQuestions(difficulty, numberOfQuestions, categoryId);
     
     const newExam = new Exam({
         difficulty, 
