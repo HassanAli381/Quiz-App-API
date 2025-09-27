@@ -4,6 +4,9 @@ const router = express.Router();
 const questionSchema = require("../utils/validation/questionSchema");
 const ajvValidation = require("../middlewares/ajvValidation")
 const idParamHandler = require("../middlewares/id.middleware");
+const auth = require("../middlewares/auth");
+const isAdmin = require("../middlewares/isAdmin");
+
 const {
     getQuestions,
     getQuestionbyId,
@@ -50,6 +53,7 @@ router.param("id", idParamHandler);
  *         description: Invalid query parameters
  */
 router.get("/", asyncHandler(getQuestions));
+
 /**
  * @swagger
  * /api/questions/{id}:

@@ -1,7 +1,5 @@
 const express = require("express");
 const asyncHandler = require('express-async-handler'); // Import the handler
-const categorySchema = require("../utils/validation/categorySchema");
-const ajvValidation = require("../middlewares/ajvValidation")
 const router = express.Router();
 const idParamHandler = require("../middlewares/id.middleware");
 const {
@@ -11,6 +9,8 @@ const {
     updateCategory,
     deleteCategory
 } = require("../controllers/category.controller");
+const auth = require("../middlewares/auth");
+const isAdmin = require("../middlewares/isAdmin");
 
 router.param("id", idParamHandler);
 /**
@@ -61,6 +61,7 @@ router.get("/", asyncHandler(getAllCategories));
  *         description: Category not found
  */
 router.get("/:id", asyncHandler(getCategorybyID));
+
 /**
  * @swagger
  * /api/categories:

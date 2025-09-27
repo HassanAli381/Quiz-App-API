@@ -6,9 +6,13 @@ const cors = require('cors');
 const userRouter = require('./src/routes/user.routes');
 const { ERROR } = require('./src/utils/responseStatus');
 dotenv.config();
-const categoryRouter = require("./src/routes/category.router")
+const categoryRouter = require("./src/routes/category.router");
 const questionRouter = require("./src/routes/question.router");
+const examRouter = require("./src/routes/exam.router");
+const AppError = require('./src/utils/AppError');
+const { FAIL } = require('./src/utils/responseStatus');
 const { swaggerUi, swaggerSpec } = require("./swagger"); // import swagger config
+
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -33,6 +37,20 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/auth/', userRouter);
+app.use('/api/exams/', examRouter);
+
+
+
+app.get("/api", (req, res) => {
+    res.json({ msg:"Welcome to Quiz APP API"})
+})
+app.use("/api/categories", categoryRouter);
+app.use("/api/questions", questionRouter);
+
+app.use('*x', (req, res, next) => {
+    const error = new AppError(FAIL, 404, 'No Such route at our server');
+    return next(error);
+})
 
 // app.use((err, req, res, next) => {
 //     const msg = err.msg || 'Something went wrong';
@@ -44,17 +62,6 @@ app.use('/api/auth/', userRouter);
 //     });
 // });
 
-app.get("/api", (req, res) => {
-    res.json({ msg:"Welcome to Quiz APP API"})
-})
-app.use("/api/categories", categoryRouter);
-app.use("/api/questions", questionRouter);
 
-app.use("/", (req, res) => {
-    res.status(404).json({
-        status: "Fail",
-        msg:"Not Found!"
-    })
-})
 
 module.exports = app;
