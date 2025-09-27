@@ -1,6 +1,8 @@
 const Question = require("../models/question.model");
 const { shuffleArray }  = require("../utils/helperFunctions");
 const { SUCCESS, FAIL } = require("../utils/responseStatus");
+const mongoose = require("mongoose")
+
 // getallquestion , getcatbyid , createquestion , updatecat , deletecat
 const getQuestions = async (req, res) => {
     // if no query send --> get all questions
@@ -28,8 +30,15 @@ const getAllQuestions = async (req, res) => {
 
 const getSomeQuestions = async (req, res) => {
     const filter = {};
-    if (req.query.catId)
+    if (req.query.catId) {
+        if (!mongoose.Types.ObjectId.isValid(req.query.catId)) {
+            return res.status(400).json({
+                status: "Fail",
+                msg: "Invalid categoryId format",
+            });
+        }
         filter.categoryId = req.query.catId
+    }
     if (req.query.difficulty)
         filter.difficulty = req.query.difficulty;
     const retrivedquestions = await Question.find(filter)

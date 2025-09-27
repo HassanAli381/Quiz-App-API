@@ -11,8 +11,11 @@ const questionRouter = require("./src/routes/question.router");
 const examRouter = require("./src/routes/exam.router");
 const AppError = require('./src/utils/AppError');
 const { FAIL } = require('./src/utils/responseStatus');
+const { swaggerUi, swaggerSpec } = require("./swagger"); // import swagger config
+
 
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
