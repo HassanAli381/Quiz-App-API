@@ -15,7 +15,22 @@ const { swaggerUi, swaggerSpec } = require("./swagger"); // import swagger confi
 
 
 const app = express();
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true,
+    swaggerOptions: {
+      url: "/api-docs/swagger.json", // serve spec separately
+    },
+  })
+);
+
+// Serve raw swagger.json (important for Vercel)
+app.get("/api-docs/swagger.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

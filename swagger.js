@@ -18,6 +18,7 @@ const options = {
     servers: [
       {
         url: `https://quiz-app-api-lac.vercel.app/`,
+        url: "http://localhost:5050/api",
       },
     ],
     components: {
