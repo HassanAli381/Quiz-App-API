@@ -1,7 +1,10 @@
 // swagger.js
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-
+const cateogories = require("./src/routes/category.router")
+const questions = require("./src/routes/question.router")
+const users = require("./src/routes/user.routes")
+const exams = require("./src/routes/exam.router")
 const PORT = process.env.PORT || 5050;
 
 const options = {
@@ -14,7 +17,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`,
+        url: `https://quiz-app-api-lac.vercel.app/`,
       },
     ],
     components: {
