@@ -36,10 +36,19 @@ app.use(express.json());
 
 app.use(helmet()); // Set security HTTP headers
 
+const allowedOrigins = ['http://localhost:4200', 'https://quiz-app-api-lac.vercel.app/'];
+
 app.use(cors({
-    origin: '*',
-    credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 
 if(process.env.NODE_ENV === 'development') {
     const morgan = require('morgan');
