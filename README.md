@@ -72,8 +72,6 @@ npm run dev
 
 ### Users
 
-* `GET /api/users` - Get all users
-* `GET /api/users/:id` - Get user by ID
 * `POST /api/users/register` - Register user
 * `POST /api/users/login` - Login user
 * `GET /api/auth/google` - Authenticate by Google
