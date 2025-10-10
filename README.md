@@ -18,10 +18,9 @@ This API provides endpoints for creating, retrieving, updating, and deleting qui
   * Categories
   * Questions
   * Exams
-  * Reviews
 * Middleware validation & error handling
 * API documentation with Swagger
-* Input validation with Joi
+* Input validation with AJV
 * Secure password hashing & Google login support
 
 
@@ -30,7 +29,7 @@ This API provides endpoints for creating, retrieving, updating, and deleting qui
 * **Backend**: Node.js, Express.js
 * **Database**: MongoDB (Mongoose ODM)
 * **Authentication**: JWT + Google Passport
-* **Validation**: Joi
+* **Validation**: AJV
 * **API Docs**: Swagger
 * **Utilities**: Custom error handling, status responses
 
@@ -77,8 +76,8 @@ npm run dev
 * `GET /api/users/:id` - Get user by ID
 * `POST /api/users/register` - Register user
 * `POST /api/users/login` - Login user
-* `PUT /api/users/:id` - Update user
-* `DELETE /api/users/:id` - Delete user
+* `GET /api/auth/google` - Authenticate by Google
+* `GET /api/auth/google/redirect` - Redirect user after authenticating with Google
 
 
 ## 📑 Notes
