@@ -52,7 +52,8 @@ const login = asyncHandler(async (req, res, next) => {
     res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
         httpOnly: true, 
-        secure: true
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none'
     });
 
     res.status(201).json({
@@ -68,7 +69,8 @@ const login = asyncHandler(async (req, res, next) => {
 const logout = asyncHandler(async (req, res, next) => {
     res.clearCookie('token', {
         httpOnly: true, 
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none'
     });
 
     res.status(201).json({
@@ -94,7 +96,8 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
     res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
         httpOnly: true, 
-        secure: true
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none'
     });
 
 

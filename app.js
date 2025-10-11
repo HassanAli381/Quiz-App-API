@@ -16,41 +16,47 @@ const { swaggerUi, swaggerSpec } = require("./swagger"); // import swagger confi
 
 const app = express();
 app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, {
-    explorer: true,
-    swaggerOptions: {
-      url: "/api-docs/swagger.json", // serve spec separately
-    },
-  })
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+        explorer: true,
+        swaggerOptions: {
+            url: "/api-docs/swagger.json", // serve spec separately
+        },
+    })
 );
 
 // Serve raw swagger.json (important for Vercel)
 app.get("/api-docs/swagger.json", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerSpec);
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerSpec);
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(helmet()); // Set security HTTP headers
 
-const allowedOrigins = ['http://localhost:4200', 'https://quiz-app-api-lac.vercel.app/'];
+const allowedOrigins = ['http://localhost:4200', 'https://quiz-app-api-lac.vercel.app'];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
 }));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    next();
+});
 
-if(process.env.NODE_ENV === 'development') {
+
+if (process.env.NODE_ENV === 'development') {
     const morgan = require('morgan');
     app.use(morgan('dev'))
 }
@@ -61,7 +67,7 @@ app.use((req, res, next) => {
 })
 
 app.get("/api", (req, res) => {
-    res.json({ msg:"Welcome to Quiz APP API"})
+    res.json({ msg: "Welcome to Quiz APP API" })
 })
 app.use("/api/categories", categoryRouter);
 app.use("/api/questions", questionRouter);
