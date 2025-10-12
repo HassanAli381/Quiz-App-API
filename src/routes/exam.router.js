@@ -192,7 +192,7 @@ router.post('/', /*auth,*/ createExam);
  *                     exam:
  *                       $ref: '#/components/schemas/Exam'
  */
-router.get('/grade/:id', /*auth,*/ gradeExam);
+router.post('/grade/:id', /*auth,*/ gradeExam);
 
 
 module.exports = router;
