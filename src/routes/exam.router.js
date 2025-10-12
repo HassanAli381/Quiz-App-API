@@ -2,7 +2,7 @@ const router = require('express').Router();
 const idParamHandler = require("../middlewares/id.middleware");
 
 const { getExam, createExam, gradeExam, getAllExams } = require('../controllers/exam.controller');
-const auth = require('../middlewares/auth');
+// const auth = require('../middlewares/auth');
 
 router.param("id", idParamHandler);
 /**
@@ -39,7 +39,7 @@ router.param("id", idParamHandler);
  *                   items:
  *                     $ref: '#/components/schemas/Exam'
  */
-router.get('/', auth, getAllExams);
+router.get('/', /*auth,*/ getAllExams);
 /**
  * @swagger
  * /api/exams/{id}:
@@ -70,7 +70,7 @@ router.get('/', auth, getAllExams);
  *       404:
  *         description: Exam not found
  */
-router.get('/:id', auth, getExam);
+router.get('/:id', /*auth,*/ getExam);
 /**
  * @swagger
  * /api/exams:
@@ -139,7 +139,7 @@ router.get('/:id', auth, getExam);
  *                             type: string
  *                             nullable: true
  */
-router.post('/', auth, createExam);
+router.post('/', /*auth,*/ createExam);
 /**
  * @swagger
  * /api/exams/grade/{id}:
@@ -192,7 +192,7 @@ router.post('/', auth, createExam);
  *                     exam:
  *                       $ref: '#/components/schemas/Exam'
  */
-router.get('/grade/:id', auth, gradeExam);
+router.get('/grade/:id', /*auth,*/ gradeExam);
 
 
 module.exports = router;

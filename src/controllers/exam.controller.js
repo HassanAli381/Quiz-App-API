@@ -38,7 +38,7 @@ const createExam = asyncHandler(async (req, res, next) => {
         categoryId
     });
 
-    newExam.userId = req.user.id;
+    // newExam.userId = req.user.id;
 
     await newExam.save();
 

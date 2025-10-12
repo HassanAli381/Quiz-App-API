@@ -4,8 +4,8 @@ const router = express.Router();
 const questionSchema = require("../utils/validation/questionSchema");
 const ajvValidation = require("../middlewares/ajvValidation");
 const idParamHandler = require("../middlewares/id.middleware");
-const auth = require("../middlewares/auth");
-const isAdmin = require("../middlewares/isAdmin");
+// const auth = require("../middlewares/auth");
+// const isAdmin = require("../middlewares/isAdmin");
 // TODO : add auth
 const {
   getQuestions,
@@ -95,8 +95,10 @@ router.get("/:id", asyncHandler(getQuestionbyId));
 router.post(
   "/",
   ajvValidation(questionSchema),
+  /*
   auth,
   isAdmin,
+  */
   asyncHandler(createQuestion)
 );
 /**
@@ -127,8 +129,10 @@ router.post(
 router.put(
   "/:id",
   ajvValidation(questionSchema),
+  /*
   auth,
   isAdmin,
+  */
   asyncHandler(updateQuestion)
 );
 /**
@@ -150,6 +154,6 @@ router.put(
  *       400:
  *         description: Invalid ID or not found
  */
-router.delete("/:id", auth, isAdmin, asyncHandler(deleteQuestion));
+router.delete("/:id", /*auth, isAdmin,*/ asyncHandler(deleteQuestion));
 
 module.exports = router;
