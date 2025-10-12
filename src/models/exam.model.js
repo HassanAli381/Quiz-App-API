@@ -32,7 +32,7 @@ const examSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
         ref: "User",
-        required: [true, 'userId is required']
+        // required: [true, 'userId is required']
     },
     isGraded: {
         type: Boolean,
