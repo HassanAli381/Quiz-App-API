@@ -35,7 +35,9 @@ const register = asyncHandler(async (req, res, next) => {
 const login = asyncHandler(async (req, res, next) => {
     const {email, password} = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('name email role password')
+
+
     if(!user || !(await user.comparePasswords(password))) {
         const error = new AppError(FAIL, 401, 'invalid email or password')
         return next(error);
@@ -56,11 +58,14 @@ const login = asyncHandler(async (req, res, next) => {
         sameSite: 'none'
     });
 
+    user.password = undefined;
+
     res.status(201).json({
         status: SUCCESS,
         msg: '✅User logged in successfully!',
         requestedAt: req.requestedAt,
         data: {
+            user,
             token
         }
     });
