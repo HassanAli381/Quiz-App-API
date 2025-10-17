@@ -72,7 +72,7 @@ const login = asyncHandler(async (req, res, next) => {
 });
 
 const getUserbyId = async (req, res) => {
-    const user = await User.findById(req.validId);
+    const user = await User.findById(req.validId).select('-password');;
     if (!user) {
         res.status(400).json({
             status: FAIL,
