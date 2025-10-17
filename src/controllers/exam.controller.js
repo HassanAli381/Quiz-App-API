@@ -66,20 +66,31 @@ const createExam = asyncHandler(async (req, res, next) => {
 
 const gradeExam = asyncHandler(async (req, res, next) => {
     const {questions} = req.body;
+
     const questionIds = questions.map(q => q.questionId);
     const dbQuestions = await Question.find({
         _id: {
             $in: questionIds
         }
     }).select('correctChoice')
-
     
     let grade = 0;
     for(let i = 0; i < dbQuestions.length; ++i) {
         const { _id, correctChoice } = dbQuestions[i];
-        if(correctChoice === questions[i].userAns)
+        let userChoice = null;
+
+        for(let j = 0; j < questions.length; ++j) {
+            if(questions[j].questionId == _id) {
+                userChoice = questions[j].userAns;
+                break;
+            }
+        }
+        
+        if(correctChoice === userChoice)
             ++grade;
     }
+
+
 
     let exam = await Exam.findById(req.params.id);
     exam.grade = grade;
