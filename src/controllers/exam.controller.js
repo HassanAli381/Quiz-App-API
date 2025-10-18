@@ -28,14 +28,15 @@ const getExam = asyncHandler(async (req, res, next) => {
 });
 
 const createExam = asyncHandler(async (req, res, next) => {
-    const {difficulty, numberOfQuestions, time, categoryId} = req.body;
+    const {difficulty, numberOfQuestions, time, categoryId, userId} = req.body;
     const questions = await getRandomQuestions(difficulty, numberOfQuestions, categoryId);
     
     const newExam = new Exam({
         difficulty, 
         numberOfQuestions,
         time: (time ? time : 10 * 60 * 1000), 
-        categoryId
+        categoryId,
+        userId
     });
 
     // newExam.userId = req.user.id;
