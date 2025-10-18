@@ -71,6 +71,22 @@ const login = asyncHandler(async (req, res, next) => {
     });
 });
 
+const getUserbyId = async (req, res) => {
+    const user = await User.findById(req.validId).select('-password');;
+    if (!user) {
+        res.status(400).json({
+            status: FAIL,
+            msg: "No Such User",
+        });
+        return;
+    }
+    res.status(200).json({
+        status: SUCCESS,
+        msg: "User Retrived",
+        data: user,
+    });
+};
+
 const logout = asyncHandler(async (req, res, next) => {
     res.clearCookie('token', {
         httpOnly: true, 
@@ -118,8 +134,9 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
-    register,
-    login,
-    logout,
-    authByGoogle
-}
+  register,
+  login,
+  logout,
+  authByGoogle,
+  getUserbyId,
+};
