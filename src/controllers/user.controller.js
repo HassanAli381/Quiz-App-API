@@ -28,6 +28,9 @@ const getUserExams = asyncHandler(async (req, res) => {
     console.log('userId', userId);
     const exams = await Exam.find({
         userId
+    }).populate({
+        path : "categoryId",
+        select : "name -_id"
     });
 
     res.status(200).json({
