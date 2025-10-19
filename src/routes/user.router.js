@@ -7,6 +7,6 @@ const idParamHandler = require("../middlewares/id.middleware");
 const { getUserbyId } = require("../controllers/auth.controller")
 router.param("id", idParamHandler);
 router.get("/:id", asyncHandler(getUserbyId));
-router.get("/:userId", asyncHandler(getUserbyId));
+router.get("/exams/:userId", asyncHandler(getUserbyId));
 
 module.exports = router;
