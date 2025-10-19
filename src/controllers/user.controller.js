@@ -25,9 +25,9 @@ const getUserbyId = asyncHandler(async (req, res, next) => {
 
 const getUserExams = asyncHandler(async (req, res) => {
     const {userId} = req.params;
+    console.log('userId', userId);
     const exams = await Exam.find({
-        userId: userId,
-        userId: { $exists: true }
+        userId
     });
 
     res.status(200).json({
