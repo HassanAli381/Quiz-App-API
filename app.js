@@ -3,8 +3,8 @@ const dotenv = require('dotenv');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const userRouter = require('./src/routes/user.routes');
-const tempUserRouter = require('./src/routes/user.router');
+const authRouter = require('./src/routes/user.routes');
+const userRouter = require('./src/routes/user.router');
 const { ERROR } = require('./src/utils/responseStatus');
 dotenv.config();
 const categoryRouter = require("./src/routes/category.router");
@@ -72,8 +72,8 @@ app.get("/api", (req, res) => {
 })
 app.use("/api/categories", categoryRouter);
 app.use("/api/questions", questionRouter);
-app.use('/api/auth/', userRouter);
-app.use('/api/user/', tempUserRouter);
+app.use('/api/auth/', authRouter);
+app.use('/api/user/', userRouter);
 app.use('/api/exams/', examRouter);
 
 app.use('*x', (req, res, next) => {

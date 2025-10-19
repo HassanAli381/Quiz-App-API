@@ -1,4 +1,4 @@
-const { register, login, authByGoogle, logout } = require('../controllers/user.controller');
+const { register, login, authByGoogle, logout } = require('../controllers/auth.controller');
 const { showGoogleAuthPage, redirectUserAfterAuth } = require('../middlewares/googleAuth.middleware');
 
 const router = require('express').Router();
