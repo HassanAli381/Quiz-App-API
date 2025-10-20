@@ -3,7 +3,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const cateogories = require("./src/routes/category.router")
 const questions = require("./src/routes/question.router")
-const users = require("./src/routes/user.routes")
+const users = require("./src/routes/auth.router")
 const exams = require("./src/routes/exam.router")
 const PORT = process.env.PORT || 5050;
 

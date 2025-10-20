@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const authRouter = require('./src/routes/user.routes');
+const authRouter = require('./src/routes/auth.router');
 const userRouter = require('./src/routes/user.router');
 const { ERROR } = require('./src/utils/responseStatus');
 dotenv.config();
