@@ -37,7 +37,7 @@ app.use(express.json());
 
 app.use(helmet()); // Set security HTTP headers
 
-const allowedOrigins = ['http://localhost:4200', 'https://quiz-app-api-lac.vercel.app'];
+const allowedOrigins = ['http://localhost:4200', 'https://quiz-master-angular.netlify.app'];
 
 app.use(cors({
     origin: function (origin, callback) {
