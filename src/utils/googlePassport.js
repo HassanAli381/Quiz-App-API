@@ -14,7 +14,7 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: 'http://localhost:5050/api/auth/google/redirect'
+            callbackURL: 'https://quiz-app-api-lac.vercel.app/api/auth/google/redirect'
         },
         // runs after google authenticates the user
         async(accessToken, refreshToken, profile, cb) => {
