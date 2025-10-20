@@ -15,7 +15,7 @@ const register = asyncHandler(async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const newUser = new User({
         name,
         email,
@@ -33,12 +33,12 @@ const register = asyncHandler(async (req, res, next) => {
 });
 
 const login = asyncHandler(async (req, res, next) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('name email role password')
 
 
-    if(!user || !(await user.comparePasswords(password))) {
+    if (!user || !(await user.comparePasswords(password))) {
         const error = new AppError(FAIL, 401, 'invalid email or password')
         return next(error);
     }
@@ -53,7 +53,7 @@ const login = asyncHandler(async (req, res, next) => {
     });
     res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-        httpOnly: true, 
+        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none'
     });
@@ -73,7 +73,7 @@ const login = asyncHandler(async (req, res, next) => {
 
 const logout = asyncHandler(async (req, res, next) => {
     res.clearCookie('token', {
-        httpOnly: true, 
+        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none'
     });
@@ -86,8 +86,8 @@ const logout = asyncHandler(async (req, res, next) => {
 })
 
 const authByGoogle = asyncHandler(async (req, res, next) => {
-    const user = req.user ;
-    if(!user) {
+    const user = req.user;
+    if (!user) {
         const error = new AppError(FAIL, 401, 'Authentication failed!');
         return next(error);
     }
@@ -100,7 +100,7 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
 
     res.cookie('token', token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-        httpOnly: true, 
+        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'none'
     });
@@ -113,13 +113,13 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
         data: {
             token
         }
-        
+
     });
 });
 
 module.exports = {
-  register,
-  login,
-  logout,
-  authByGoogle,
+    register,
+    login,
+    logout,
+    authByGoogle,
 };
