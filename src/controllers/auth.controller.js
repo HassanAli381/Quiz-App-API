@@ -117,7 +117,7 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
     const userData = encodeURIComponent(JSON.stringify(user));
     // console.log('userData', userData);
     
-    res.redirect(`https://quiz-app-api-lac.vercel.app/auth/callback?token=${token}&user=${userData}`)
+    res.redirect(`https://quiz-master-angular.netlify.app/auth/callback?token=${token}&user=${userData}`)
 });
 
 module.exports = {
