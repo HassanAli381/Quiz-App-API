@@ -105,16 +105,19 @@ const authByGoogle = asyncHandler(async (req, res, next) => {
         sameSite: 'none'
     });
 
+    // console.log('token', token);
 
-    res.status(201).json({
-        status: SUCCESS,
-        msg: '✅User logged in with google successfully!',
-        requestedAt: req.requestedAt,
-        data: {
-            token
-        }
+    user.password = undefined;
+    user.authenticatedByGoogle = undefined;
+    user.createdAt = undefined;
+    user.updatedAt = undefined;
+    user.lastLogin = undefined;
 
-    });
+    // console.log('user', user);
+    const userData = encodeURIComponent(JSON.stringify(user));
+    // console.log('userData', userData);
+    
+    res.redirect(`https://quiz-app-api-lac.vercel.app/auth/callback?token=${token}&user=${userData}`)
 });
 
 module.exports = {
